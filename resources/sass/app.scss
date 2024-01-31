@@ -1,0 +1,18 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+ol, ul {
+    list-style: none;
+}
+body {
+    background-color: rgb(247 254 231);
+}
+header{
+    display: flex;
+}
