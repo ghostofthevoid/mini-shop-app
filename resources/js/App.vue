@@ -1,4 +1,5 @@
 <template>
+<!--    <Drawer/>-->
     <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
         <Header/>
         <div class="p-3 mt-3">
@@ -10,8 +11,8 @@
 
 <script setup>
 import Header from "./components/Header.vue";
-import Card from "./components/Card.vue";
 import CardList from "./components/CardList.vue";
+import Drawer from "./components/Drawer/Index.vue";
 </script>
 
 <style scoped>

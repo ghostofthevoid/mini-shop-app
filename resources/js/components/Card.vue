@@ -2,11 +2,8 @@
     <div class="col-md-4 col-xl-3">
         <div class="card mt-3 bg-white rounded-4">
             <div class="position-relative ">
-                <img @click="onClickFavorite"
-                    :src="!isFavorite ? '/images/heart.svg' : '/images/liked.svg'"
-                     alt="like 1"
-                     class="position-absolute m-2 col-1">
-                <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light">
+
+                <div class="bg-image hover-overlay card-img ripple ripple-surface ripple-surface-light">
                     <img :src="imageUrl" alt="" class="img-thumbnail">
                 </div>
                 <p class="px-2 pt-2">{{ title }}</p>
@@ -15,10 +12,17 @@
                         <b>Price:</b>
                         <span class="text-muted">$ {{ price }}</span>
                     </div>
-                    <img @click="onClickAdd"
-                        :src="!isAdded ? '/images/btn-plus.svg' : '/images/btn-checked.svg'"
-                         alt="plus" class="col-2">
-                </div>
+                    <div class="">
+                        <img @click="onClickFavorite"
+                             :src="!isFavorite ? '/images/heart.svg' : '/images/liked.svg'"
+                             alt="like 1"
+                             class="m-1 border rounded">
+                        <img @click="onClickAdd"
+                             :src="!isAdded ? '/images/btn-plus.svg' : '/images/btn-checked.svg'"
+                             alt="plus" class="m-1 border rounded">
+                    </div>
+                    </div>
+
             </div>
         </div>
     </div>
