@@ -14,12 +14,16 @@ class ApiController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function filter()
+    public function filterProductSelect()
     {
 
         $data = request()->validate([
             'value' => 'string'
         ]);
+        if($data['value'] == 'norm' ){
+            $products = Product::all();
+            return ProductResource::collection($products);
+        }
         if ($data['value'] == '-price') {
             $products = Product::orderBy('price', 'desc')->get();
             return ProductResource::collection($products);

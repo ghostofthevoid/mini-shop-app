@@ -8,7 +8,7 @@
 
                 <div class="d-flex ">
                     <select @change="onChangSelect" class="form-select me-3 mt-1">
-                        <option selected>Sort</option>
+                        <option value="norm" >Sort</option>
                         <option value="title">By name</option>
                         <option value="-price">Price, high to low </option>
                         <option value="price">Price, low to high </option>
