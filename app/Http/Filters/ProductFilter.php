@@ -43,5 +43,7 @@ class ProductFilter extends AbstractFilter
         $builder->whereHas('tags', function ($b) use ($value) {
             $b->whereIn('tag_id', $value);
         });
+
+
     }
 }

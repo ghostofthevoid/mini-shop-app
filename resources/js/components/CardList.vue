@@ -1,12 +1,19 @@
 <template>
     <div class="row position-relative">
-        <Card title="iPhone 11" imageUrl="/images/iPhone11.jpg"
-        :price="1200" :is-favorite="true"
-        :onClickAdd="onClickAdd"/>
+        <Card v-for="product in products"
+              :key="product.id"
+              :title="product.title"
+              :imageUrl="product.image_url"
+              :price="Number(product.price)"
+              :is-favorite="true"
+              :isAdded="true"
+              :onClickAdd="onClickAdd"/>
+
     </div>
 </template>
 
 <script setup>
+
 import Card from "./Card.vue";
 
 // methods
@@ -14,6 +21,12 @@ import Card from "./Card.vue";
 const onClickAdd = () => {
     alert("Add?")
 }
+
+//Props
+defineProps({
+    products: Object,
+
+})
 
 </script>
 
