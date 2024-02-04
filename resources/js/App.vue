@@ -8,17 +8,18 @@
 
                 <div class="d-flex ">
                     <select @change="onChangSelect" class="form-select me-3 mt-1">
-                        <option value="norm" >Sort</option>
+                        <option value="norm">Sort</option>
                         <option value="title">By name</option>
-                        <option value="-price">Price, high to low </option>
-                        <option value="price">Price, low to high </option>
+                        <option value="-price">Price, high to low</option>
+                        <option value="price">Price, low to high</option>
                     </select>
 
                     <div class="position-relative">
                         <img class="search-img position-absolute ms-3 mt-2"
                              src="/images/search.svg" alt="">
 
-                        <input type="text"
+                        <input @input="onChangeSearchInput"
+                               type="text"
                                class="form-control ps-5"
                                placeholder="Search...">
                     </div>
@@ -32,43 +33,57 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {onMounted, reactive, ref, watch} from "vue";
 import Header from "./components/Header.vue";
 import CardList from "./components/CardList.vue";
 import Drawer from "./components/Drawer/Index.vue";
 
 const products = ref([])
 
-const sortBy = ref('')
-const searchQuery = ref('')
-
+const filters = reactive({
+    sortBy: '',
+    searchQuery: ''
+})
 
 // methods
 
 const onChangSelect = event => {
-    sortBy.value = event.target.value
+    filters.sortBy = event.target.value
+}
+const onChangeSearchInput = event => {
+    filters.searchQuery = event.target.value
 }
 
-onMounted(async () => {
+const fetchItems = async () => {
     try {
-        const {data} = await axios.get("/api/products", {})
-        products.value = data.data
-    } catch (e) {
-        console.log(e)
-    }
-})
+        const params = {}
 
-watch(sortBy,async () => {
-    console.log(typeof sortBy.value)
-    try {
-        const {data} = await axios.post("/api/filter", {
-            'value': sortBy.value
-        })
-        products.value = data.data
+        if(filters.sortBy === 'title') {
+            params.byTitle = filters.sortBy
+        }
+        if(filters.sortBy === 'price') {
+            params.byPriceAsc = filters.sortBy
+        }
+        if(filters.sortBy === '-price') {
+            params.byPriceDesc = filters.sortBy
+        }
+        if (filters.searchQuery) {
+            params.searchInput = filters.searchQuery
+        }
+        console.log(params)
+
+        const {data} = await axios.get("/api/products", {params})
+        console.log(data.data)
+        if (data.data) {
+            products.value = data.data
+        }
     } catch (e) {
         console.log(e)
     }
-})
+}
+
+onMounted(fetchItems)
+watch(filters, fetchItems)
 
 </script>
 

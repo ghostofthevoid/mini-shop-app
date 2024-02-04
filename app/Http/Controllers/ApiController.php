@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Filters\ProductFilter;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 
@@ -10,26 +11,15 @@ class ApiController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return ProductResource::collection($products);
-    }
-
-    public function filterProductSelect()
-    {
-
         $data = request()->validate([
-            'value' => 'string'
+            'byTitle' => 'string',
+            'byPriceAsc' => 'string',
+            'byPriceDesc' => 'string',
+            'searchInput' => 'string'
         ]);
-        if($data['value'] == 'norm' ){
-            $products = Product::all();
-            return ProductResource::collection($products);
-        }
-        if ($data['value'] == '-price') {
-            $products = Product::orderBy('price', 'desc')->get();
-            return ProductResource::collection($products);
-        }
-        $products = Product::orderBy($data['value'])->get();
 
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+        $products = Product::filter($filter)->get();
 
         return ProductResource::collection($products);
     }

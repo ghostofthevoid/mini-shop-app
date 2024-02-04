@@ -10,6 +10,10 @@ class ProductFilter extends AbstractFilter
     const COLORS = 'colors';
     const PRICES = 'prices';
     const TAGS = 'tags';
+    const PRICE_ASC = 'byPriceAsc';
+    const PRICE_DESC = 'byPriceDesc';
+    const TITLE = 'byTitle';
+    const SEARCH_INPUT = 'searchInput';
 
     protected function getCallbacks(): array
     {
@@ -18,7 +22,34 @@ class ProductFilter extends AbstractFilter
             self::COLORS => [$this, 'colors'],
             self::PRICES => [$this, 'prices'],
             self::TAGS => [$this, 'tags'],
+            self::PRICE_ASC => [$this, 'filterByPriceAsc'],
+            self::PRICE_DESC => [$this, 'filterByPriceDesc'],
+            self::TITLE => [$this, 'filterByTitle'],
+            self::SEARCH_INPUT => [$this, 'searchInput'],
+
         ];
+    }
+
+    public function searchInput(Builder $builder, $value)
+    {
+        $builder->where('title', 'like', "%{$value}%") ||
+        $builder->where('description', 'like', "%{$value}%") ||
+        $builder->where('content', 'like', "%{$value}%");
+    }
+
+    public function filterByTitle(Builder $builder, $value)
+    {
+        $builder->orderBy($value);
+    }
+
+    public function filterByPriceAsc(Builder $builder, $value)
+    {
+        $builder->orderBy($value);
+    }
+
+    public function filterByPriceDesc(Builder $builder)
+    {
+        $builder->orderBy('price', 'desc');
     }
 
     protected function categories(Builder $builder, $value)
