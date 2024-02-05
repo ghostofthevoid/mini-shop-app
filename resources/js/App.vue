@@ -123,6 +123,7 @@ const fetchItems = async () => {
                 isAdded: false
             }))
         }
+        await fetchFavorites()
     } catch (e) {
         console.log(e)
     }
@@ -132,7 +133,6 @@ provide('addToFavorite', addToFavorite)
 
 onMounted(async () => {
     await fetchItems()
-    await fetchFavorites()
 })
 
 watch(filters, fetchItems)
