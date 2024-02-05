@@ -18,6 +18,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products', [\App\Http\Controllers\ApiController::class, 'index'] );
-Route::get('/products/filters', \App\Http\Controllers\API\Product\FilterListController::class);
-Route::get('/products/{product}', \App\Http\Controllers\API\Product\ShowController::class);
+Route::get('/products', [\App\Http\Controllers\API\ProductController::class, 'index'] );
+Route::get('/favorites', [\App\Http\Controllers\API\FavoriteController::class, 'index'] );
+Route::post('/favorites', [\App\Http\Controllers\API\FavoriteController::class, 'store'] );
+Route::delete('/favorites/{favorite}', [\App\Http\Controllers\API\FavoriteController::class, 'destroy'] );
+
+

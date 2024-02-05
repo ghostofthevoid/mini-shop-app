@@ -28,12 +28,12 @@
 
             </div>
         </div>
-        <CardList :products="products"/>
+        <CardList :products="products" @addToFavorite="addToFavorite"/>
     </div>
 </template>
 
 <script setup>
-import {onMounted, reactive, ref, watch} from "vue";
+import {onMounted, reactive, ref, watch, provide} from "vue";
 import Header from "./components/Header.vue";
 import CardList from "./components/CardList.vue";
 import Drawer from "./components/Drawer/Index.vue";
@@ -54,35 +54,87 @@ const onChangeSearchInput = event => {
     filters.searchQuery = event.target.value
 }
 
+const fetchFavorites = async () => {
+    try {
+        const {data: favorites} = await axios.get("/api/favorites")
+        console.log(favorites)
+        console.log(products.value)
+        products.value = products.value.map(product => {
+            const favorite = favorites.find(favorite => favorite.parentId === product.id)
+
+            if (!favorite) {
+                return product
+            }
+
+            return {
+                ...product,
+                isFavorite: true,
+                favoriteId: favorite.id
+            }
+        })
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const addToFavorite = async (product) => {
+    try {
+        if (!product.isFavorite) {
+            const obj = {
+                parentId: product.id
+            }
+            product.isFavorite = true
+            const {data} = await axios.post("/api/favorites", obj)
+            console.log(data.id)
+            product.favoriteId = data.id
+        }else {
+            product.isFavorite = false
+            await axios.delete(`/api/favorites/${product.favoriteId}`)
+            product.favoriteId = null
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 const fetchItems = async () => {
     try {
         const params = {}
 
-        if(filters.sortBy === 'title') {
+        if (filters.sortBy === 'title') {
             params.byTitle = filters.sortBy
         }
-        if(filters.sortBy === 'price') {
+        if (filters.sortBy === 'price') {
             params.byPriceAsc = filters.sortBy
         }
-        if(filters.sortBy === '-price') {
+        if (filters.sortBy === '-price') {
             params.byPriceDesc = filters.sortBy
         }
         if (filters.searchQuery) {
             params.searchInput = filters.searchQuery
         }
-        console.log(params)
 
         const {data} = await axios.get("/api/products", {params})
-        console.log(data.data)
         if (data.data) {
-            products.value = data.data
+            products.value = data.data.map((obj) => ({
+                ...obj,
+                isFavorite: false,
+                favoriteId: null,
+                isAdded: false
+            }))
         }
     } catch (e) {
         console.log(e)
     }
 }
 
-onMounted(fetchItems)
+provide('addToFavorite', addToFavorite)
+
+onMounted(async () => {
+    await fetchItems()
+    await fetchFavorites()
+})
+
 watch(filters, fetchItems)
 
 </script>

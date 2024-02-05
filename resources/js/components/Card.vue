@@ -16,7 +16,7 @@
                         <img @click="onClickFavorite"
                              :src="!isFavorite ? '/images/heart.svg' : '/images/liked.svg'"
                              alt="like 1"
-                             class="m-1 border rounded">
+                             class="m-1">
                         <img @click="onClickAdd"
                              :src="!isAdded ? '/images/btn-plus.svg' : '/images/btn-checked.svg'"
                              alt="plus" class="m-1 border rounded">
@@ -29,7 +29,10 @@
 </template>
 
 <script setup>
-defineProps({
+import {inject} from 'vue'
+
+const props = defineProps({
+    id: Number,
     title: String,
     imageUrl: String,
     price: Number,
@@ -38,6 +41,8 @@ defineProps({
     onClickAdd: Function,
     onClickFavorite: Function,
 })
+
+
 </script>
 
 <style scoped>
