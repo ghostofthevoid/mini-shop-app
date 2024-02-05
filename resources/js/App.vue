@@ -1,7 +1,7 @@
 <template>
-    <!--    <Drawer/>-->
+        <Drawer v-if="drawer"/>
     <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
-        <Header/>
+        <Header @openDrawer="openDrawer" />
         <div class="p-3 mt-3">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="fw-bold text-xl">All products</h2>
@@ -40,12 +40,22 @@ import Drawer from "./components/Drawer/Index.vue";
 
 const products = ref([])
 
+const drawer = ref(false)
+
 const filters = reactive({
     sortBy: '',
     searchQuery: ''
 })
 
 // methods
+
+const closeDrawer = () => {
+    drawer.value = false
+}
+
+const openDrawer = () => {
+    drawer.value = true
+}
 
 const onChangSelect = event => {
     filters.sortBy = event.target.value
@@ -129,7 +139,10 @@ const fetchItems = async () => {
     }
 }
 
-provide('addToFavorite', addToFavorite)
+provide('cartActions', {
+    closeDrawer,
+    openDrawer
+})
 
 onMounted(async () => {
     await fetchItems()

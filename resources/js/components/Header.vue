@@ -14,7 +14,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navmenu">
             <ul class=" d-flex align-items-center  py-3 navbar-nav ms-auto">
-                <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                <li @click="()=>emit('openDrawer')"
+                    class=" d-flex align-items-center me-5 text-secondary nav-item ">
                     <i class="fas fa-shopping-cart"></i>
                     <b>1200 $</b>
                 </li>
@@ -34,6 +35,7 @@
 
 <script setup>
 
+const emit = defineEmits(['openDrawer'])
 </script>
 
 <style scoped>
