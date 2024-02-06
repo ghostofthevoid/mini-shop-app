@@ -1,5 +1,5 @@
 <template>
-    <div class="row position-relative">
+    <div class="row position-relative" v-auto-animate>
         <Card v-for="product in products"
               :key="product.id"
               :id="product.id"
