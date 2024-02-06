@@ -17,7 +17,7 @@
                 <li @click="()=>emit('openDrawer')"
                     class=" d-flex align-items-center me-5 text-secondary nav-item ">
                     <i class="fas fa-shopping-cart"></i>
-                    <b>1200 $</b>
+                    <b>{{ totalPrice }} $</b>
                 </li>
                 <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
                     <span>Bookmarks</span>
@@ -36,6 +36,10 @@
 <script setup>
 
 const emit = defineEmits(['openDrawer'])
+
+defineProps({
+    totalPrice: Number
+})
 </script>
 
 <style scoped>

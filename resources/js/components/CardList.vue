@@ -9,7 +9,7 @@
               :is-favorite="product.isFavorite"
               :isAdded="product.isAdded"
               :onClickFavorite="() => emit('addToFavorite', product)"
-              :onClickAdd="onClickAdd"/>
+              :onClickAdd="() => emit('addToCart', product)"/>
 
     </div>
 </template>
@@ -18,7 +18,7 @@
 
 import Card from "./Card.vue";
 
-const emit = defineEmits(['addToFavorite'])
+const emit = defineEmits(['addToFavorite', 'addToCart'])
 
 // methods
 

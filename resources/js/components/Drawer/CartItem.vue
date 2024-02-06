@@ -1,14 +1,14 @@
 <template>
     <div class=" d-flex align-items-center border border-gray p-2 rounded-2 mb-2">
-        <img src="/images/iPhone11.jpg" alt="" class="prod-img me-2">
+        <img :src="imageUrl" :alt="title" class="prod-img me-2">
 
-        <div class="d-flex flex-column ">
-            <p>iPhone 11</p>
+        <div class="container-fluid d-flex flex-column">
+            <p>{{ title }}</p>
 
-            <div class="d-flex justify-content-between align-items-center">
-                <b>$ 1200</b>
+            <div class="d-flex justify-content-between align-items-center ">
+                <b>$ {{ price }}</b>
 
-                <img src="/images/remove.svg" alt="" class="remove-img">
+                <img @click="emit('onClickRemove')" src="/images/remove.svg" alt="" class="remove-img">
 
             </div>
         </div>
@@ -17,6 +17,13 @@
 
 <script setup>
 
+const emit = defineEmits(['onClickRemove'])
+defineProps({
+    id: Number,
+    title: String,
+    imageUrl: String,
+    price: Number,
+})
 </script>
 
 <style scoped>
@@ -29,7 +36,6 @@
     height: 22px;
     cursor: pointer;
     opacity: 30%;
-    margin-left: 140px;
     transition: 0.3s;
 }
 
