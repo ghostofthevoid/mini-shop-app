@@ -4,11 +4,16 @@ import {createRouter, createWebHistory} from 'vue-router'
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        // {
-        //     path: '/',
-        //     name: 'main',
-        //     component: () => import()
-        // },
+        {
+            path: '/',
+            name: 'home',
+            component: () => import('../pages/Home.vue')
+        },
+        {
+            path: '/favorites',
+            name: 'favorite',
+            component: () => import('../pages/Favorites.vue')
+        },
     ]
 })
 

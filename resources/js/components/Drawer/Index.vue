@@ -1,6 +1,6 @@
 <template>
     <div class="drawer-black position-fixed bg-black "></div>
-    <div class="drawer-white bg-white position-fixed p-3">
+    <div class="drawer-white bg-white position-fixed p-3" v-auto-animate>
         <DrawerHead/>
         <div v-if="!totalPrice" class="d-flex h-100 align-items-center">
             <InfoBlock
