@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parentId');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
         });
     }

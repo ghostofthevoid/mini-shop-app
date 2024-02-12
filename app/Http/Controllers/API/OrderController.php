@@ -22,7 +22,7 @@ class OrderController extends Controller
             'products' => 'array',
             'totalPrice' => 'integer'
         ]);
-       return [];
+       return ['id' => 8];
     }
 
 

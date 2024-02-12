@@ -8,8 +8,8 @@
               :price="Number(product.price)"
               :is-favorite="product.isFavorite"
               :isAdded="product.isAdded"
-              :onClickFavorite="() => emit('addToFavorite', product)"
-              :onClickAdd="() => emit('addToCart', product)"/>
+              :onClickFavorite="isFavorites ? null : () => emit('addToFavorite', product)"
+              :onClickAdd="isFavorites ? null : () => emit('addToCart', product)"/>
 
     </div>
 </template>
@@ -23,11 +23,10 @@ const emit = defineEmits(['addToFavorite', 'addToCart'])
 // methods
 
 
-
 //Props
 defineProps({
     products: Array,
-
+    isFavorites: Boolean,
 })
 
 </script>

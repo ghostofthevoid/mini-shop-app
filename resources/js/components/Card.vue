@@ -13,11 +13,13 @@
                         <span class="text-muted">$ {{ price }}</span>
                     </div>
                     <div class="">
-                        <img @click="onClickFavorite"
+                        <img v-if="onClickFavorite"
+                            @click="onClickFavorite"
                              :src="!isFavorite ? '/images/heart.svg' : '/images/liked.svg'"
                              alt="like 1"
                              class="m-1">
-                        <img @click="onClickAdd"
+                        <img v-if="onClickAdd"
+                            @click="onClickAdd"
                              :src="!isAdded ? '/images/btn-plus.svg' : '/images/btn-checked.svg'"
                              alt="plus" class="m-1 border rounded">
                     </div>

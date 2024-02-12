@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Product\ProductResource;
 use App\Models\Bookmark;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 
@@ -11,7 +13,10 @@ class FavoriteController extends Controller
 {
     public function index()
     {
-        return Bookmark::all();
+        $ids = Bookmark::select('product_id')->get();
+        $products =  Product::whereIn('id', $ids)->get();
+        return ProductResource::collection($products);
+
     }
 
     public function store()
@@ -19,7 +24,7 @@ class FavoriteController extends Controller
         try {
             DB::beginTransaction();
             $data = request()->validate([
-                'parentId' => 'integer'
+                'product_id' => 'integer'
             ]);
             $result = Bookmark::firstOrCreate($data);
             DB::commit();
@@ -33,6 +38,7 @@ class FavoriteController extends Controller
 
     public function destroy($bookmarkId)
     {
+        
         $bookmark = Bookmark::find($bookmarkId);
         $bookmark->delete();
     }

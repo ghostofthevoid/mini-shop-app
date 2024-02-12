@@ -3,7 +3,7 @@
 
         <nav
             class="navbar navbar-expand-lg d-flex justify-content-between position-relative border-bottom border-success">
-            <router-link  :to="{name: 'home'}">
+            <router-link :to="{name: 'home'}">
                 <div class="d-flex align-items-center">
                     <img src="/images/store.png" alt="Logo" class="rounded-circle ">
                     <div class="ms-3">
@@ -24,10 +24,13 @@
                         <i class="fas fa-shopping-cart"></i>
                         <b>{{ totalPrice }} $</b>
                     </li>
-                    <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
-                        <span>Bookmarks</span>
-                        <i class="far fa-heart m-1"></i>
-                    </li>
+                    <router-link :to="{name: 'favorites'}">
+                        <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                            <span>Bookmarks</span>
+                            <i class="far fa-heart m-1"></i>
+                        </li>
+                    </router-link>
+
                     <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
                         <span>Profile</span>
                         <i class="far fa-user-circle m-1"></i>
@@ -39,9 +42,7 @@
 </template>
 
 <script setup>
-
 const emit = defineEmits(['openDrawer'])
-
 defineProps({
     totalPrice: Number
 })

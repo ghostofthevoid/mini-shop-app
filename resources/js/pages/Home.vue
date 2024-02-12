@@ -36,6 +36,7 @@
 
 import CardList from "../components/CardList.vue";
 import {inject, onMounted, reactive, ref, watch} from "vue";
+import debounce from 'lodash.debounce';
 
 const products = ref([])
 const {cart, addToCart, removeFromCart} = inject('cart')
@@ -58,7 +59,7 @@ const fetchFavorites = async () => {
     try {
         const {data: favorites} = await axios.get("/api/favorites")
         products.value = products.value.map(product => {
-            const favorite = favorites.find(favorite => favorite.parentId === product.id)
+            const favorite = favorites.data.find(favorite => favorite.id === product.id)
 
             if (!favorite) {
                 return product
@@ -109,14 +110,14 @@ const fetchItems = async () => {
 const onChangSelect = event => {
     filters.sortBy = event.target.value
 }
-const onChangeSearchInput = event => {
+const onChangeSearchInput = debounce((event) => {
     filters.searchQuery = event.target.value
-}
+}, 500);
 const addToFavorite = async (product) => {
     try {
         if (!product.isFavorite) {
             const obj = {
-                parentId: product.id
+                product_id: product.id
             }
             product.isFavorite = true
             const {data} = await axios.post("/api/favorites", obj)
@@ -149,10 +150,19 @@ onMounted(async () => {
 })
 
 watch(filters, fetchItems)
+watch(cart, () => {
+        products.value = products.value.map((prod) => ({
+            ...prod,
+            isAdded: false
+        }))
+})
 
 
 </script>
 
 <style scoped>
-
+select {
+    height: 2rem;
+    width: 10rem;
+}
 </style>
