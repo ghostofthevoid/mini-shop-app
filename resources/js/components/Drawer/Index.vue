@@ -62,7 +62,7 @@ const creatOrder = async () => {
     try {
         const {data} = await axios.post('/api/orders', {
             products: cart.value,
-            totalPrice: props.totalPrice.value
+            totalPrice: props.totalPrice
         })
         cart.value = []
         orderId.value = data.id
