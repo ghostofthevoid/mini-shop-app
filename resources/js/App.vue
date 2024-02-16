@@ -15,7 +15,6 @@ import {computed, provide, ref, watch} from "vue";
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer/Index.vue";
 
-
 const cart = ref([])
 const drawer = ref(false)
 

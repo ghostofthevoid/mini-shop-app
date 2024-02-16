@@ -15,13 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::namespace('App\\Http\\Controllers\\Category')->group(function () {
-
-});
-
-
-
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('/', \App\Http\Controllers\Main\IndexController::class)->name('main.index');
 
@@ -78,9 +72,14 @@ Route::prefix('admin')->group(function () {
 
 
 });
+
+Route::prefix('test')->group(function () {
+    Auth::routes();
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+});
+
  Route::get('{page}', \App\Http\Controllers\Client\IndexController::class)->where('page', '.*');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

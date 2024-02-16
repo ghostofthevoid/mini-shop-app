@@ -31,6 +31,12 @@
                         </li>
                     </router-link>
 
+                    <a :href="`admin`">
+                        <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                            <span>Admin</span>
+                            <i class="fas fa-user-cog m-1"></i>
+                        </li>
+                    </a>
                     <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
                         <span>Profile</span>
                         <i class="far fa-user-circle m-1"></i>

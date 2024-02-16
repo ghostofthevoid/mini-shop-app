@@ -9,7 +9,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('adminlte/plugins/fontawesome-free/css/all.min.css')}}">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
 </head>
 @yield('content')
 </html>
