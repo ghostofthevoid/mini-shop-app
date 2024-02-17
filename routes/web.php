@@ -73,13 +73,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 });
 
-Route::prefix('test')->group(function () {
-    Auth::routes();
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();
 
-});
-
- Route::get('{page}', \App\Http\Controllers\Client\IndexController::class)->where('page', '.*');
+Route::get('{page}', \App\Http\Controllers\Client\IndexController::class)->where('page', '.*');
 
 

@@ -24,7 +24,7 @@
                         <i class="fas fa-shopping-cart"></i>
                         <b>{{ totalPrice }} $</b>
                     </li>
-                    <router-link :to="{name: 'favorites'}">
+                    <router-link v-if="token" :to="{name: 'favorites'}">
                         <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
                             <span>Bookmarks</span>
                             <i class="far fa-heart m-1"></i>
@@ -32,14 +32,31 @@
                     </router-link>
 
                     <a :href="`admin`">
-                        <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                        <li v-if="token" class=" d-flex align-items-center me-5 text-secondary nav-item ">
                             <span>Admin</span>
                             <i class="fas fa-user-cog m-1"></i>
                         </li>
                     </a>
-                    <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                    <li v-if="token" class=" d-flex align-items-center me-5 text-secondary nav-item ">
                         <span>Profile</span>
-                        <i class="far fa-user-circle m-1"></i>
+                        <i class="dropdown-icon far fa-user-circle m-1"></i>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown me-5 ">
+                <button class="btn btn-default dropdown-toggle text-muted" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Options
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="d-flex"><a class="dropdown-item" v-if="token" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" v-if="token" :href="`admin`">Admin</a></li>
+                    <li><a @click.prevent="logOut" class="dropdown-item" v-if="token">Logout</a></li>
+                    <li>
+                        <router-link v-if="!token" class="dropdown-item" :to="{name: 'login'}">Sign in</router-link>
+                    </li>
+                    <li>
+                        <router-link v-if="!token" class="dropdown-item" :to="{name: 'register'}">Sign up</router-link>
                     </li>
                 </ul>
             </div>
@@ -48,10 +65,28 @@
 </template>
 
 <script setup>
+import {onMounted, ref} from "vue";
+import router from "../router/index.js";
+
 const emit = defineEmits(['openDrawer'])
+const token = ref('')
+
+const getToken = () => {
+    token.value = localStorage.getItem('x-xsrf-token')
+}
+const logOut = async () => {
+    await axios.post('/logout').then(res => {
+        router.push({name: 'login'})
+    })
+}
+
+
+onMounted(getToken)
+
 defineProps({
     totalPrice: Number
 })
+
 </script>
 
 <style scoped>

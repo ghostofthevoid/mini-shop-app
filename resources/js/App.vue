@@ -1,13 +1,14 @@
 <template>
-    <Drawer v-if="drawer"
-            :total-price="totalPrice"
-            :vat-price="vatPrice"
-           />
-    <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
-        <Header :total-price="totalPrice" @openDrawer="openDrawer"/>
-     <router-view />
-    </div>
-
+   <div class=" h-100">
+       <Drawer v-if="drawer"
+               :total-price="totalPrice"
+               :vat-price="vatPrice"
+       />
+       <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
+           <Header :total-price="totalPrice" @openDrawer="openDrawer"/>
+           <router-view />
+       </div>
+   </div>
 </template>
 
 <script setup>
