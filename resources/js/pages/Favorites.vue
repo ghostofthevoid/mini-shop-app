@@ -14,7 +14,7 @@ const favorites = ref([])
 
 onMounted(async () => {
     try {
-        const {data} = await axios.get('/api/favorites')
+        const {data} = await axios.get('/client/favorites')
         favorites.value = data.data
         console.log(data)
     } catch (err) {

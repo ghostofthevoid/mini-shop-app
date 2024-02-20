@@ -57,7 +57,7 @@ const onClickAction = (product) => {
 
 const fetchFavorites = async () => {
     try {
-        const {data: favorites} = await axios.get("/api/favorites")
+        const {data: favorites} = await axios.get("/client/favorites")
         products.value = products.value.map(product => {
             const favorite = favorites.data.find(favorite => favorite.id === product.id)
 
@@ -92,7 +92,8 @@ const fetchItems = async () => {
             params.searchInput = filters.searchQuery
         }
 
-        const {data} = await axios.get("/api/products", {params})
+        const {data} = await axios.get("/client/products", {params})
+        console.log(data)
         if (data.data) {
             products.value = data.data.map((obj) => ({
                 ...obj,
@@ -120,12 +121,12 @@ const addToFavorite = async (product) => {
                 product_id: product.id
             }
             product.isFavorite = true
-            const {data} = await axios.post("/api/favorites", obj)
+            const {data} = await axios.post("/client/favorites", obj)
             console.log(data.id)
             product.favoriteId = data.id
         } else {
             product.isFavorite = false
-            await axios.delete(`/api/favorites/${product.favoriteId}`)
+            await axios.delete(`/client/favorites/${product.favoriteId}`)
             product.favoriteId = null
         }
     } catch (err) {
@@ -141,6 +142,7 @@ const getLocalCart = () => {
 onMounted(async () => {
     await fetchItems()
     await getLocalCart()
+
     products.value = products.value.map((item) => ({
         ...item,
         isAdded: cart.value.some(cartItem => cartItem.id === item.id)

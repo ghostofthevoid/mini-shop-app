@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware('IsAdmin')->group(function () {
 
     Route::get('/', \App\Http\Controllers\Main\IndexController::class)->name('main.index');
+
 
 
     Route::prefix('categories')->group(function () {
@@ -74,7 +75,27 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 
+
+Route::prefix('client')->group( function () {
+
+   // Route::get('/', \App\Http\Controllers\Client\IndexController::class);
+
+    Route::get('/products', [\App\Http\Controllers\API\ProductController::class, 'index'] );
+
+    Route::get('/orders', [\App\Http\Controllers\API\OrderController::class, 'index'] );
+    Route::post('/orders', [\App\Http\Controllers\API\OrderController::class, 'store'] );
+
+
+    Route::get('/favorites', [\App\Http\Controllers\API\FavoriteController::class, 'index'] );
+    Route::post('/favorites', [\App\Http\Controllers\API\FavoriteController::class, 'store'] );
+    Route::delete('/favorites/{favorite}', [\App\Http\Controllers\API\FavoriteController::class, 'destroy'] );
+});
+
 Auth::routes();
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 Route::get('{page}', \App\Http\Controllers\Client\IndexController::class)->where('page', '.*');
 

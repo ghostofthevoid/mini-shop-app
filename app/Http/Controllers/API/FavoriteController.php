@@ -38,8 +38,9 @@ class FavoriteController extends Controller
 
     public function destroy($bookmarkId)
     {
-        
+
         $bookmark = Bookmark::find($bookmarkId);
+
         $bookmark->delete();
     }
 }

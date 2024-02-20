@@ -5,22 +5,25 @@
                :vat-price="vatPrice"
        />
        <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
-           <Header :total-price="totalPrice" @openDrawer="openDrawer"/>
+           <Header :total-price="totalPrice"
+                   @openDrawer="openDrawer"/>
            <router-view />
        </div>
    </div>
 </template>
 
 <script setup>
-import {computed, provide, ref, watch} from "vue";
+import {computed, onMounted, provide, ref, watch} from "vue";
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer/Index.vue";
+
 
 const cart = ref([])
 const drawer = ref(false)
 
 
 //Computed
+
 const totalPrice = computed(
     () => cart.value.reduce((sum, prod) => sum + Number(prod.price), 0)
 )
@@ -44,7 +47,6 @@ const openDrawer = () => {
     drawer.value = true
 }
 
-
 watch(cart, () => {
     localStorage.setItem('cart', JSON.stringify(cart.value))
 }, {deep: true})
@@ -55,7 +57,7 @@ provide('cart', {
     closeDrawer,
     openDrawer,
     addToCart,
-    removeFromCart
+    removeFromCart,
 })
 
 

@@ -18,17 +18,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products', [\App\Http\Controllers\API\ProductController::class, 'index'] );
-
-Route::group(['middleware' => 'auth:sanctum'], function () {
-
-    Route::get('/orders', [\App\Http\Controllers\API\OrderController::class, 'index'] );
-    Route::post('/orders', [\App\Http\Controllers\API\OrderController::class, 'store'] );
 
 
-    Route::get('/favorites', [\App\Http\Controllers\API\FavoriteController::class, 'index'] );
-    Route::post('/favorites', [\App\Http\Controllers\API\FavoriteController::class, 'store'] );
-    Route::delete('/favorites/{favorite}', [\App\Http\Controllers\API\FavoriteController::class, 'destroy'] );
-});
+
 
 
