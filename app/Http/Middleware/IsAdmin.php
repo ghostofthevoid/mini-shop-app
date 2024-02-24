@@ -23,7 +23,7 @@ class IsAdmin
         if ($route && ($route->getPrefix()?? null) === '/admin') {
             if (!auth()->user() || auth()->user()->role !== 'admin') {
 
-                return redirect('/');
+                return redirect('/home');
             }
         }
         return $next($request);

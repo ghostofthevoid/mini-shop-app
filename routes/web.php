@@ -78,7 +78,6 @@ Route::prefix('admin')->middleware('IsAdmin')->group(function () {
 
 Route::prefix('client')->group( function () {
 
-   // Route::get('/', \App\Http\Controllers\Client\IndexController::class);
 
     Route::get('/products', [\App\Http\Controllers\API\ProductController::class, 'index'] );
 
@@ -91,12 +90,9 @@ Route::prefix('client')->group( function () {
     Route::delete('/favorites/{favorite}', [\App\Http\Controllers\API\FavoriteController::class, 'destroy'] );
 });
 
+
+Route::get('{any}', function () {
+    return view('client.main.index');
+})->where('any', '.*');
 Auth::routes();
-
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-Route::get('{page}', \App\Http\Controllers\Client\IndexController::class)->where('page', '.*');
-
-
+Route::get('/home', [App\Http\Controllers\Client\IndexController::class, 'index'])->name('home');

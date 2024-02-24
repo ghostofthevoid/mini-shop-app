@@ -43,20 +43,16 @@
                     </li>
                 </ul>
             </div>
-            <div class="dropdown me-5 ">
-                <button class="btn btn-default dropdown-toggle text-muted" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    Options
-                </button>
-                <ul class="dropdown-menu">
-                    <li class="d-flex"><a class="dropdown-item"  href="#">Profile</a></li>
-                    <li><a class="dropdown-item"  :href="`admin`">Admin</a></li>
-<!--                    <li><a @click="()=> emit('logout')" class="dropdown-item" >Logout</a></li>-->
-                    <li>
-                        <router-link  class="dropdown-item" to="#">Sign in</router-link>
-                    </li>
-                    <li>
-                        <router-link  class="dropdown-item" to="#">Sign up</router-link>
+            <div class="d-flex">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'user'}}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="javascript:void(0)" @click="() => emit('logout')">Logout</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -65,7 +61,7 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['openDrawer'])
+const emit = defineEmits(['openDrawer', 'logout'])
 
 defineProps({
     totalPrice: Number,

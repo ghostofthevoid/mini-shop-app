@@ -6,7 +6,9 @@
        />
        <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
            <Header :total-price="totalPrice"
+                   @logout="logout"
                    @openDrawer="openDrawer"/>
+
            <router-view />
        </div>
    </div>
@@ -16,7 +18,17 @@
 import {computed, onMounted, provide, ref, watch} from "vue";
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer/Index.vue";
+import {mapActions, useStore} from "vuex";
+import useRouter from "./router/index.js";
 
+
+const store = useStore()
+const user = computed(() => store.state.auth.user)
+console.log(store.state.auth.user)
+const {signOut} = mapActions({
+    signOut: "auth/logout"
+});
+const router = useRouter;
 
 const cart = ref([])
 const drawer = ref(false)
@@ -32,6 +44,19 @@ const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100))
 
 
 // Methods
+
+async function logout() {
+    try {
+        const {data} = await axios.post('/logout');
+        console.log(data)
+        await signOut();
+        await router.push({name: "login"});
+    } catch (error) {
+        // Handle error
+        console.error('Logout failed:', error);
+    }
+}
+
 const addToCart = (product) => {
     cart.value.push(product)
     product.isAdded = true

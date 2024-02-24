@@ -93,7 +93,6 @@ const fetchItems = async () => {
         }
 
         const {data} = await axios.get("/client/products", {params})
-        console.log(data)
         if (data.data) {
             products.value = data.data.map((obj) => ({
                 ...obj,
