@@ -78,8 +78,6 @@ Route::prefix('admin')->middleware('IsAdmin')->group(function () {
 
 Route::prefix('client')->group( function () {
 
-   // Route::get('/', \App\Http\Controllers\Client\IndexController::class);
-
     Route::get('/products', [\App\Http\Controllers\API\ProductController::class, 'index'] );
 
     Route::get('/orders', [\App\Http\Controllers\API\OrderController::class, 'index'] );
