@@ -91,8 +91,14 @@ Route::prefix('client')->group( function () {
 
 Auth::routes();
 
+Route::get('/register', function () {
+    return redirect('user/register');
+});
+Route::get('/login', function () {
+    return redirect('user/login');
+});
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect('user/login');
 });
 
 Route::get('{page}', \App\Http\Controllers\Client\IndexController::class)->where('page', '.*');

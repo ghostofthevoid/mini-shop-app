@@ -1,4 +1,5 @@
 import 'bootstrap';
+import router from "@/router/index.js";
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -7,12 +8,21 @@ import 'bootstrap';
  */
 
 import axios from 'axios';
-import router from "./router/index.js";
+
 window.axios = axios;
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.interceptors.response.use({}, error => {
+    if (error.response.status === 401 || error.response.status === 419) {
+        const token = localStorage.getItem('token')
+        if (token) {
+            localStorage.removeItem('token')
+        }
+        router.push({name: 'login'})
+    }
+})
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

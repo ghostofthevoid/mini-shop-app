@@ -4,7 +4,7 @@
                :total-price="totalPrice"
                :vat-price="vatPrice"
        />
-       <div class="container bg-white w-75 m-auto rounded-3 shadow-lg mt-5 ">
+       <div class="container bg-white w-75 rounded-3 shadow-lg mt-5">
            <Header :total-price="totalPrice"
                    @openDrawer="openDrawer"/>
            <router-view />
@@ -64,5 +64,7 @@ provide('cart', {
 </script>
 
 <style scoped>
-
+.container{
+   min-height: 500px;
+}
 </style>

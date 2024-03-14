@@ -4,6 +4,7 @@
               :key="product.id"
               :id="product.id"
               :title="product.title"
+              :description="product.description"
               :imageUrl="product.image_url"
               :price="Number(product.price)"
               :is-favorite="product.isFavorite"

@@ -19,25 +19,25 @@
             </button>
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class=" d-flex align-items-center  py-3 navbar-nav ms-auto">
-                    <li @click="()=>emit('openDrawer')"
-                        class=" d-flex align-items-center me-5 text-secondary nav-item ">
-                        <i class="fas fa-shopping-cart"></i>
+                    <li v-if="token"  @click="()=>emit('openDrawer')"
+                        class="d-flex align-items-center me-5 text-secondary nav-item li-cart">
+                        <i class="fas fa-shopping-cart me-1"></i>
                         <b>{{ totalPrice }} $</b>
                     </li>
-                    <router-link :to="{name: 'favorites'}">
-                        <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                    <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                        <router-link v-if="token" :to="{name: 'favorites'}">
                             <span>Bookmarks</span>
                             <i class="far fa-heart m-1"></i>
-                        </li>
-                    </router-link>
+                        </router-link>
+                    </li>
 
-                    <a :href="`admin`">
-                        <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                    <li v-if="token" class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                        <a href="/admin">
                             <span>Admin</span>
                             <i class="fas fa-user-cog m-1"></i>
-                        </li>
-                    </a>
-                    <li class=" d-flex align-items-center me-5 text-secondary nav-item ">
+                        </a>
+                    </li>
+                    <li v-if="token" class=" d-flex align-items-center me-5 text-secondary nav-item ">
                         <span>Profile</span>
                         <i class="dropdown-icon far fa-user-circle m-1"></i>
                     </li>
@@ -49,14 +49,22 @@
                     Options
                 </button>
                 <ul class="dropdown-menu">
-                    <li class="d-flex"><a class="dropdown-item"  href="#">Profile</a></li>
-                    <li><a class="dropdown-item"  :href="`admin`">Admin</a></li>
-<!--                    <li><a @click="()=> emit('logout')" class="dropdown-item" >Logout</a></li>-->
+                    <li class="d-flex">
+                        <!--                        <router-link class="dropdown-item" :to="{name: 'profile', id: '2'}">Profile</router-link>-->
+                    </li>
+                    <li v-if="token">
+                        <a class="dropdown-item" :href="`admin`">Admin</a>
+                    </li>
+                    <!--                    <li><a @click="()=> emit('logout')" class="dropdown-item" >Logout</a></li>-->
                     <li>
-                        <router-link  class="dropdown-item" to="#">Sign in</router-link>
+                        <router-link class="dropdown-item" v-if="!token" :to="{name: 'login'}">Sign in</router-link>
                     </li>
                     <li>
-                        <router-link  class="dropdown-item" to="#">Sign up</router-link>
+                        <router-link class="dropdown-item" v-if="!token" :to="{name: 'register'}">Sign up</router-link>
+                    </li>
+                    <li>
+                        <router-link @click.prevent="Logout" v-if="token" class="dropdown-item" to="#">Logout
+                        </router-link>
                     </li>
                 </ul>
             </div>
@@ -65,21 +73,30 @@
 </template>
 
 <script setup>
+import axios from 'axios';
+import router from "@/router/index.js";
+
+const token = localStorage.getItem('token')
+
 const emit = defineEmits(['openDrawer'])
 
 defineProps({
     totalPrice: Number,
 })
 
+
+const Logout = async () => {
+    await axios.post('/logout')
+        .then(res => {
+            localStorage.removeItem('token')
+            router.push({name: 'login'})
+        })
+
+}
 </script>
 
 <style scoped>
-li:hover {
-    color: #18ab6d !important;
+.li-cart{
     cursor: pointer;
-}
-
-a {
-    text-decoration: none;
 }
 </style>

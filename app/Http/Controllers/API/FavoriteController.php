@@ -38,9 +38,16 @@ class FavoriteController extends Controller
 
     public function destroy($bookmarkId)
     {
+        $bookmark = Bookmark::where('product_id', $bookmarkId)->first();
 
-        $bookmark = Bookmark::find($bookmarkId);
-
-        $bookmark->delete();
+        if ($bookmark) {
+            $bookmark->delete();
+            // Optionally, you may want to return a response indicating success
+            return response()->json(['message' => 'Bookmark deleted successfully'], 200);
+        } else {
+            // Handle case when bookmark with given ID is not found
+            return response()->json(['message' => 'Bookmark not found'], 404);
+        }
     }
+
 }

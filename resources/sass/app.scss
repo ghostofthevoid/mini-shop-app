@@ -13,4 +13,19 @@ ol, ul {
 body {
     background-color: rgb(247 254 231);
 }
-
+.btn-submit {
+    background: #1dd46c;
+    color: white;
+}
+.card-header {
+    background: #1dd46c;
+    color: white;
+}
+a{
+    color: #6d7d88;
+    text-decoration: none;
+}
+a:hover {
+    color: #18ab6d !important;
+    cursor: pointer;
+}

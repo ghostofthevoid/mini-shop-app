@@ -6,13 +6,16 @@
                 <div class="bg-image hover-overlay card-img ripple ripple-surface ripple-surface-light">
                     <img :src="imageUrl" alt="" class="img-thumbnail">
                 </div>
-                <p class="px-2 pt-2">{{ title }}</p>
+                <h4 class="px-2 pt-2 fw-bold">{{ title }}</h4>
+                <div class="rounded text-center border p-3">
+                    <p>{{ description ?? 'Description' }}</p>
+                </div>
                 <div class=" d-flex justify-content-between p-3">
                     <div class="d-flex flex-column">
                         <b>Price:</b>
                         <span class="text-muted">$ {{ price }}</span>
                     </div>
-                    <div class="">
+                    <div v-if="token" class="">
                         <img v-if="onClickFavorite"
                             @click="onClickFavorite"
                              :src="!isFavorite ? '/images/heart.svg' : '/images/liked.svg'"
@@ -32,9 +35,12 @@
 
 <script setup>
 
+const token = localStorage.getItem('token')
+
 const props = defineProps({
     id: Number,
     title: String,
+    description: String,
     imageUrl: String,
     price: Number,
     isFavorite: Boolean,
